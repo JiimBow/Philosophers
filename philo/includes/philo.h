@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/09 16:00:10 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/09 17:01:23 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 typedef struct	s_mutex
 {
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	mutex;
 	int				philo_id;
 	int				nb_philo;
 	int				eat_nb;

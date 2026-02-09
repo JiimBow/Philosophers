@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/09 16:41:43 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/09 17:08:50 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void	*thread_routine(void *data)
 	meals = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->mutex[philo->philo_id - 1]);
-		pthread_mutex_lock(&philo->mutex[philo->philo_id % philo->nb_philo]);
+		pthread_mutex_lock(&philo[philo->philo_id - 1].mutex);
+		pthread_mutex_lock(&philo[philo->philo_id % philo->nb_philo].mutex);
 		printf("philo %u : je prends une fourchette\n", philo->philo_id);
 		printf("philo %u : je mange\n", philo->philo_id);
 		usleep(philo->eat_time);
 		meals++;
-		pthread_mutex_unlock(&philo->mutex[philo->philo_id - 1]);
-		pthread_mutex_unlock(&philo->mutex[philo->philo_id % philo->nb_philo]);
+		pthread_mutex_unlock(&philo[philo->philo_id - 1].mutex);
+		pthread_mutex_unlock(&philo[philo->philo_id % philo->nb_philo].mutex);
 		usleep(philo->sleep_time);
 		if (meals == philo->eat_nb)
 			break ;
@@ -45,51 +45,54 @@ void	*thread_routine(void *data)
 	return (NULL);
 }
 
-void	create_philo(t_mutex *philo, pthread_t tid)
+void	create_philo(t_mutex *philo, pthread_t *tid)
 {
 	int			i;
 
 	philo->eat_nb = -1;
 	i = 0;
-	pthread_create(&tid, NULL, thread_routine, philo);
+	pthread_create(tid, NULL, thread_routine, philo);
 }
 
 int	main(int ac, char **av)
 {
 	int			i;
-	int			nb_thread;
+	int			nb_mutex;
 	t_mutex		*philo;
-	pthread_t	*tids;
+	pthread_t	*tid;
 
 	if (ac < 4 || ac > 5)
 		return (1);
 	philo = malloc(sizeof(t_mutex) * ft_atoi(av[1]));
+	if (!philo)
+		return (1);
 	philo->nb_philo = ft_atoi(av[1]);
-	philo->mutex = malloc(philo->nb_philo * sizeof(pthread_mutex_t));
-	tids = NULL;
-	struct_init(philo, av);
+	tid = malloc(sizeof(pthread_t) * philo->nb_philo);
+	if (!tid)
+		return (1);
+	nb_mutex = 0;
+	while (nb_mutex < philo->nb_philo)
+	{
+		pthread_mutex_init(&philo[nb_mutex].mutex, NULL);
+		nb_mutex++;
+	}
 	i = 0;
 	while (i < philo->nb_philo)
 	{
-		pthread_mutex_init(&philo->mutex[i], NULL);
+		philo[i].philo_id = i + 1;
+		struct_init(&philo[i], av);
+		create_philo(&philo[i], &tid[i]);
 		i++;
 	}
-	nb_thread = 0;
-	while (nb_thread < philo->nb_philo)
+	i = 0;
+	while (i < philo->nb_philo)
 	{
-		philo->philo_id = nb_thread + 1;
-		create_philo(philo, tids[nb_thread]);
-		nb_thread++;
+		pthread_join(tid[i], NULL);
+		i++;
 	}
-	nb_thread = 0;
-	while (nb_thread < philo->nb_philo)
+	while (nb_mutex > 0)
 	{
-		pthread_join(tids[nb_thread], NULL);
-		nb_thread++;
-	}
-	while (i > 0)
-	{
-		pthread_mutex_destroy(&philo->mutex[i - 1]);
-		i--;
+		pthread_mutex_destroy(&philo[nb_mutex - 1].mutex);
+		nb_mutex--;
 	}
 }
