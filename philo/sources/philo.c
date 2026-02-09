@@ -3,96 +3,118 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/09 17:08:50 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/09 21:44:54 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	struct_init(t_mutex *philo, char **av)
+void	data_init(t_data *data, char **av)
 {
-	philo->starve_time = ft_atoi(av[2]);
-	philo->eat_time = ft_atoi(av[3]);
-	philo->sleep_time = ft_atoi(av[4]);
+	data->nb_philo = ft_atoi(av[1]);
+	data->starve_time = ft_atoi(av[2]);
+	data->eat_time = ft_atoi(av[3]);
+	data->sleep_time = ft_atoi(av[4]);
 	if (av[5])
-		philo->eat_nb = ft_atoi(av[5]);
+		data->eat_nb = ft_atoi(av[5]);
+}
+
+int	mutex_init(t_data *data)
+{
+	int	i;
+
+	data->mutex = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
+	if (!data->mutex)
+		return (1);
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_init(&data->mutex[i], NULL);
+		i++;
+	}
+	return (0);
+}
+
+void	philo_init(t_philo *philo, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		philo[i].id = i;
+		philo[i].nb_meals = 0;
+		philo[i].last_meal = 0;
+		philo[i].data = data;
+		i++;
+	}
+}
+
+void	destroy_mutex(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_destroy(&data->mutex[i]);
+		i++;
+	}
+	free(data->mutex);
 }
 
 void	*thread_routine(void *data)
 {
-	t_mutex	*philo;
-	int		meals;
+	t_philo	*philo;
+	int		f_left;
+	int		f_right;
 
-	philo = (t_mutex *)data;
-	meals = 0;
+	philo = (t_philo *)data;
+	f_left = philo->id;
+	f_right = (philo->id + 1) % philo->data->nb_philo;
 	while (1)
 	{
-		pthread_mutex_lock(&philo[philo->philo_id - 1].mutex);
-		pthread_mutex_lock(&philo[philo->philo_id % philo->nb_philo].mutex);
-		printf("philo %u : je prends une fourchette\n", philo->philo_id);
-		printf("philo %u : je mange\n", philo->philo_id);
-		usleep(philo->eat_time);
-		meals++;
-		pthread_mutex_unlock(&philo[philo->philo_id - 1].mutex);
-		pthread_mutex_unlock(&philo[philo->philo_id % philo->nb_philo].mutex);
-		usleep(philo->sleep_time);
-		if (meals == philo->eat_nb)
-			break ;
+		pthread_mutex_lock(&philo->data->mutex[f_left]);
+		pthread_mutex_lock(&philo->data->mutex[f_right]);
+		printf("%d is eating\n", philo->id + 1);
+		usleep(philo->data->eat_time);
+		philo->nb_meals++;
+		pthread_mutex_unlock(&philo->data->mutex[f_left]);
+		pthread_mutex_unlock(&philo->data->mutex[f_right]);
+		usleep(philo->data->sleep_time);
 	}
 	return (NULL);
 }
 
-void	create_philo(t_mutex *philo, pthread_t *tid)
+void	create_philo(t_philo *philo, t_data *data)
 {
-	int			i;
+	int	i;
 
-	philo->eat_nb = -1;
 	i = 0;
-	pthread_create(tid, NULL, thread_routine, philo);
+	while (i < data->nb_philo)
+	{
+		pthread_create(&philo[i].thread, NULL, thread_routine, &philo[i]);
+		i++;
+	}
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_join(philo[i].thread, NULL);
+		i++;
+	}
 }
 
 int	main(int ac, char **av)
 {
-	int			i;
-	int			nb_mutex;
-	t_mutex		*philo;
-	pthread_t	*tid;
+	t_data	data;
+	t_philo	philo;
 
 	if (ac < 4 || ac > 5)
 		return (1);
-	philo = malloc(sizeof(t_mutex) * ft_atoi(av[1]));
-	if (!philo)
-		return (1);
-	philo->nb_philo = ft_atoi(av[1]);
-	tid = malloc(sizeof(pthread_t) * philo->nb_philo);
-	if (!tid)
-		return (1);
-	nb_mutex = 0;
-	while (nb_mutex < philo->nb_philo)
-	{
-		pthread_mutex_init(&philo[nb_mutex].mutex, NULL);
-		nb_mutex++;
-	}
-	i = 0;
-	while (i < philo->nb_philo)
-	{
-		philo[i].philo_id = i + 1;
-		struct_init(&philo[i], av);
-		create_philo(&philo[i], &tid[i]);
-		i++;
-	}
-	i = 0;
-	while (i < philo->nb_philo)
-	{
-		pthread_join(tid[i], NULL);
-		i++;
-	}
-	while (nb_mutex > 0)
-	{
-		pthread_mutex_destroy(&philo[nb_mutex - 1].mutex);
-		nb_mutex--;
-	}
+	data_init(&data, av);
+	philo_init(&philo, &data);
+	create_philo(&philo, &data);
 }

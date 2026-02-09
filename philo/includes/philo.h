@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/09 17:01:23 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/09 21:28:10 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,25 @@
 # include <unistd.h>
 # include <pthread.h>
 
-typedef struct	s_mutex
+typedef struct	s_data
 {
-	pthread_mutex_t	mutex;
-	int				philo_id;
+	pthread_mutex_t	*mutex;
 	int				nb_philo;
-	int				eat_nb;
 	int				eat_time;
 	int				starve_time;
 	int				sleep_time;
-}	t_mutex;
+	int				eat_nb;
+}	t_data;
+
+typedef struct s_philo
+{
+	int			id;
+	int			nb_meals;
+	int			last_meal;
+	pthread_t	thread;
+	t_data		*data;
+}	t_philo;
+
 
 int	ft_atoi(const char *nptr);
 
