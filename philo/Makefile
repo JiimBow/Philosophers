@@ -6,40 +6,54 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/02 14:51:48 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/09 16:42:23 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
 NAME=philo
 
-SRC_DIR= sources/
-BONUS_DIR= philo_bonus/
+# COLOR
+GREEN		:= \033[32m
+RESET		:= \033[0m
 
-SRC= $(SRC_DIR)philo.c
+# DIR
+SRC_DIR		= sources/
+UTILS		= $(SRC_DIR)utils/
+BONUS_DIR	= philo_bonus/
+OBJ_DIR		= objects
 
-INCLUDES=-I includes/
+SRC			= $(SRC_DIR)philo.c \
+			$(UTILS)ft_atoi.c
 
-OBJECT=$(SRC:.c=.o)
-CFLAGS=-Wall -Wextra -Werror -g 
+INCLUDES	=-I includes/
+
+OBJECT		=$(SRC:%.c=$(OBJ_DIR)/%.o)
+CFLAGS		=-Wall -Wextra -Werror -g 
 
 all: $(NAME)
 
 $(NAME): $(OBJECT) 
 		@$(CC) $(CFLAGS) $(OBJECT) -o $(NAME)
-		@echo "Compil Success"
+		@echo "${GREEN}====   $(NAME)   ==== : >>>>>SUCCESS<<<<<${RESET}"
 
-%.o: %.c
-		@$(CC) $(CFLAGS) $(INCLUDES) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+			@mkdir -p $(dir $@)
+			@$(CC) $(CFLAGS) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
 clean:
+		@if ls $(OBJECT) >/dev/null 2>&1; then \
+		echo "${GREEN}====   $(NAME)   ==== : >>>OBJ CLEANED<<<${RESET}"; \
+		fi
 		@rm -f $(OBJECT)
-		@echo "clean success"
+		@rm -rf $(OBJ_DIR)
 
 fclean: clean
+		@if ls $(OBJECT) >/dev/null 2>&1; then \
+		echo "${GREEN}====   $(NAME)   ==== : >>>ALL CLEANED<<<${RESET}"; \
+		fi
 		@rm -f $(NAME)
-		@echo "fclean success"
 		
 re: fclean all
 
-.PHONY: all clean fclean re bonus philo
+.PHONY: all clean fclean re bonus
