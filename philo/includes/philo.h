@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/09 21:28:10 by jimbow           ###   ########.fr       */
+/*   Updated: 2026/02/12 17:26:29 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
+# include <sys/time.h>
 
 typedef struct	s_data
 {
@@ -26,6 +27,7 @@ typedef struct	s_data
 	int				starve_time;
 	int				sleep_time;
 	int				eat_nb;
+	unsigned long	prog_time;
 }	t_data;
 
 typedef struct s_philo
