@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/16 16:08:37 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/16 16:33:28 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,28 @@ void	*thread_routine(void *data)
 		size_t timeofdeath = get_timestamp(philo) + philo->data->starve_time;
 		printf("%lu %lu is time of death from %d\n", get_timestamp(philo), timeofdeath, philo->id + 1);
 		pthread_mutex_unlock(&philo->time_mutex);
-		while (1)
-		{
-			if (pthread_mutex_lock(&philo->data->mutex[f_right]) == 0 && pthread_mutex_lock(&philo->data->mutex[f_left]) == 0)
-				break ;
-			else
-			{
-				pthread_mutex_unlock(&philo->data->mutex[f_left]);
-				pthread_mutex_unlock(&philo->data->mutex[f_right]);
-			}
-			usleep(10 * 1000);
-			if (get_timestamp(philo) - philo->last_meal >= philo->data->starve_time)
-			{
-				printf("%lu %d died\n", get_timestamp(philo), philo->id + 1);
-				break ;
-			}
-		}
+		// while (1)
+		// {
+		// 	// if (pthread_mutex_lock(&philo->data->mutex[f_right]) == 0 && pthread_mutex_lock(&philo->data->mutex[f_left]) == 0)
+		// 	// 	break ;
+		// 	// else
+		// 	// {
+		// 	// 	pthread_mutex_unlock(&philo->data->mutex[f_left]);
+		// 	// 	pthread_mutex_unlock(&philo->data->mutex[f_right]);
+		// 	// }
+		// 	usleep(10 * 1000);
+		// 	printf("%lu %d coucou c'est moi\n", get_timestamp(philo), philo->id + 1);
+		// 	if (get_timestamp(philo) - philo->last_meal >= philo->data->starve_time)
+		// 	{
+		// 		printf("%lu %d died\n", get_timestamp(philo), philo->id + 1);
+		// 		break ;
+		// 	}
+		// }
+		// pthread_mutex_lock(&philo->data->mutex[f_right]);
+		// pthread_mutex_lock(&philo->data->mutex[f_left]);
+		if (pthread_mutex_lock(&philo->data->mutex[f_right]) == 0)
+			
+		if (pthread_mutex_lock(&philo->data->mutex[f_left]) == 0)
 		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
 		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
 		printf("%lu %d is eating\n", get_timestamp(philo), philo->id + 1);
