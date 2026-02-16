@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/09 16:42:23 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/16 14:21:01 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ BONUS_DIR	= philo_bonus/
 OBJ_DIR		= objects
 
 SRC			= $(SRC_DIR)philo.c \
-			$(UTILS)ft_atoi.c
+			$(UTILS)ft_atoi.c \
+			$(UTILS)get_time.c
 
 INCLUDES	=-I includes/
 

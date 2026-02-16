@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/12 17:26:29 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/16 15:49:09 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,28 @@ typedef struct	s_data
 {
 	pthread_mutex_t	*mutex;
 	int				nb_philo;
-	int				eat_time;
-	int				starve_time;
-	int				sleep_time;
+	size_t			eat_time;
+	size_t			starve_time;
+	size_t			sleep_time;
 	int				eat_nb;
-	unsigned long	prog_time;
+	size_t			prog_time;
 }	t_data;
 
 typedef struct s_philo
 {
-	int			id;
-	int			nb_meals;
-	int			last_meal;
-	pthread_t	thread;
-	t_data		*data;
+	int				id;
+	int				nb_meals;
+	size_t			last_meal;
+	size_t			prog_time;
+	pthread_mutex_t	time_mutex;
+	pthread_t		thread;
+	t_data			*data;
+	struct timeval	tv;
 }	t_philo;
 
-
-int	ft_atoi(const char *nptr);
+// UTILS
+int		ft_atoi(const char *nptr);
+size_t	get_time(t_philo *philo);
+size_t	get_timestamp(t_philo *philo);
 
 #endif

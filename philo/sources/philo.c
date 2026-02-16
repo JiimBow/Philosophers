@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/12 17:26:46 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/16 16:08:37 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	data_init(t_data *data, char **av)
 {
 	data->nb_philo = ft_atoi(av[1]);
-	data->starve_time = ft_atoi(av[2]) * 1000;
-	data->eat_time = ft_atoi(av[3]) * 1000;
-	data->sleep_time = ft_atoi(av[4]) * 1000;
+	data->starve_time = ft_atoi(av[2]);
+	data->eat_time = ft_atoi(av[3]);
+	data->sleep_time = ft_atoi(av[4]);
 	if (av[5])
 		data->eat_nb = ft_atoi(av[5]);
 }
@@ -38,7 +38,7 @@ int	mutex_init(t_data *data)
 	return (0);
 }
 
-void	philo_init(t_philo *philo, t_data *data)
+void	philo_init(t_philo *philo, t_data *data, size_t start_time)
 {
 	int	i;
 
@@ -49,8 +49,10 @@ void	philo_init(t_philo *philo, t_data *data)
 		philo[i].nb_meals = 0;
 		philo[i].last_meal = 0;
 		philo[i].data = data;
+		philo[i].prog_time = start_time;
 		i++;
 	}
+	pthread_mutex_init(&philo->time_mutex, NULL);
 }
 
 void	mutex_destroy(t_data *data)
@@ -68,41 +70,50 @@ void	mutex_destroy(t_data *data)
 
 void	*thread_routine(void *data)
 {
-	t_philo			*philo;
-	int				f_left;
-	int				f_right;
-	unsigned long	time_of_death;
-	struct timeval	tv;
-	
+	t_philo	*philo;
+	int		f_left;
+	int		f_right;
+	size_t	time_of_death;
+	size_t	timestamp;
 
 	philo = (t_philo *)data;
 	f_left = philo->id;
 	f_right = (philo->id + 1) % philo->data->nb_philo;
 	while (1)
 	{
-		printf("%d is thinking\n", philo->id + 1);
-		gettimeofday(&tv, NULL);
-		time_of_death = (tv.tv_usec);// + philo[philo->id].data->starve_time;
-		printf("%d time of death is %lu\n", philo->id + 1, time_of_death);
-		while (pthread_mutex_lock(&philo->data->mutex[f_right]) != 0 || pthread_mutex_lock(&philo->data->mutex[f_left]) != 0)
+		pthread_mutex_lock(&philo->time_mutex);
+		timestamp = get_timestamp(philo);
+		time_of_death = timestamp + philo->data->starve_time;
+		printf("%lu %d is thinking\n", get_timestamp(philo), philo->id + 1);
+		size_t timeofdeath = get_timestamp(philo) + philo->data->starve_time;
+		printf("%lu %lu is time of death from %d\n", get_timestamp(philo), timeofdeath, philo->id + 1);
+		pthread_mutex_unlock(&philo->time_mutex);
+		while (1)
 		{
-			pthread_mutex_unlock(&philo->data->mutex[f_left]);
-			pthread_mutex_unlock(&philo->data->mutex[f_right]);
-			gettimeofday(&tv, NULL);
-			if ((unsigned long)(tv.tv_usec) > time_of_death)
+			if (pthread_mutex_lock(&philo->data->mutex[f_right]) == 0 && pthread_mutex_lock(&philo->data->mutex[f_left]) == 0)
+				break ;
+			else
 			{
-				printf("%d died\n", philo->id + 1);
+				pthread_mutex_unlock(&philo->data->mutex[f_left]);
+				pthread_mutex_unlock(&philo->data->mutex[f_right]);
+			}
+			usleep(10 * 1000);
+			if (get_timestamp(philo) - philo->last_meal >= philo->data->starve_time)
+			{
+				printf("%lu %d died\n", get_timestamp(philo), philo->id + 1);
+				break ;
 			}
 		}
-		printf("%d has taken a fork\n", philo->id + 1);
-		printf("%d has taken a fork\n", philo->id + 1);
-		printf("%d is eating\n", philo->id + 1);
-		usleep(philo->data->eat_time);
+		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
+		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
+		printf("%lu %d is eating\n", get_timestamp(philo), philo->id + 1);
+		philo->last_meal = get_timestamp(philo);
+		usleep(philo->data->eat_time * 1000);
 		philo->nb_meals++;
 		pthread_mutex_unlock(&philo->data->mutex[f_left]);
 		pthread_mutex_unlock(&philo->data->mutex[f_right]);
-		usleep(philo->data->sleep_time);
-		printf("%d is sleeping\n", philo->id + 1);
+		printf("%lu %d is sleeping\n", get_timestamp(philo), philo->id + 1);
+		usleep(philo->data->sleep_time * 1000);
 	}
 	return (NULL);
 }
@@ -138,7 +149,7 @@ int	main(int ac, char **av)
 	philo = malloc(data.nb_philo * sizeof(t_philo));
 	if (!philo)
 		return (1);
-	philo_init(philo, &data);
+	philo_init(philo, &data, get_time(philo));
 	create_philo(philo, &data);
 	mutex_destroy(&data);
 }
