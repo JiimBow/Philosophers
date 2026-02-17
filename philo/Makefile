@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/17 16:08:28 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/17 16:37:58 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC			= $(SRC_DIR)main.c \
 			$(UTILS)ft_atoi.c \
 			$(UTILS)get_time.c \
 			$(UTILS)init.c \
-			$(UTILS)clean.c
+			$(UTILS)clean.c \
+			$(UTILS)routine_process.c
 
 INCLUDES	=-I includes/
 

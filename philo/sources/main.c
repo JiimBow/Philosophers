@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/17 15:56:19 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/17 17:37:49 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,18 @@ void	*thread_routine(void *data)
 	philo = (t_philo *)data;
 	f_left = philo->id;
 	f_right = (philo->id + 1) % philo->data->nb_philo;
-	while (1)
+	while (philo->data->stop == 0)
 	{
 		timestamp = get_timestamp(philo);
-		printf("%lu %d is thinking\n", get_timestamp(philo), philo->id + 1);
-		pthread_mutex_lock(&philo->data->fork[f_right]);
-		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
-		pthread_mutex_lock(&philo->data->fork[f_left]);
-		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
-		printf("%lu %d is eating\n", get_timestamp(philo), philo->id + 1);
-		pthread_mutex_lock(&philo->meal_mutex);
-		philo->last_meal = get_timestamp(philo);
-		pthread_mutex_unlock(&philo->meal_mutex);
-		usleep(philo->data->eat_time * 1000);
-		philo->nb_meals++;
+		if (thinking_process(philo))
+			break ;
+		if (picking_fork(philo, f_left, f_right))
+			break ;
+		if (eating_process(philo, f_left, f_right))
+			break ;
 		pthread_mutex_unlock(&philo->data->fork[f_left]);
 		pthread_mutex_unlock(&philo->data->fork[f_right]);
-		printf("%lu %d is sleeping\n", get_timestamp(philo), philo->id + 1);
-		usleep(philo->data->sleep_time * 1000);
-		if (philo->data->stop == 1)
+		if (sleeping_process(philo))
 			break ;
 	}
 	return (NULL);
