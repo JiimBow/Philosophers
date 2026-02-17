@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/16 15:49:09 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/17 01:45:02 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@
 
 typedef struct	s_data
 {
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	stop_mutex;
 	int				nb_philo;
+	int				stop;
 	size_t			eat_time;
 	size_t			starve_time;
 	size_t			sleep_time;
 	int				eat_nb;
 	size_t			prog_time;
+	t_philo			*philo;
 }	t_data;
 
 typedef struct s_philo
@@ -46,5 +50,10 @@ typedef struct s_philo
 int		ft_atoi(const char *nptr);
 size_t	get_time(t_philo *philo);
 size_t	get_timestamp(t_philo *philo);
+
+//INITIALISATION
+void	data_init(t_philo *philo, t_data *data, char **av);
+int		mutex_init(t_data *data);
+void	philo_init(t_philo *philo, t_data *data, size_t start_time);
 
 #endif

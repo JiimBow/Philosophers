@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
+#    By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/16 14:21:01 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/17 01:20:30 by jimbow           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ OBJ_DIR		= objects
 
 SRC			= $(SRC_DIR)philo.c \
 			$(UTILS)ft_atoi.c \
-			$(UTILS)get_time.c
+			$(UTILS)get_time.c \
+			$(UTILS)init.c
 
 INCLUDES	=-I includes/
 
