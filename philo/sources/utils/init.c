@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:18:59 by jimbow            #+#    #+#             */
-/*   Updated: 2026/02/17 01:46:08 by jimbow           ###   ########.fr       */
+/*   Updated: 2026/02/17 12:16:58 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	data_init(t_philo *philo, t_data *data, char **av)
+void	data_init(t_data *data, char **av)
 {
     data->stop = 0;
 	data->nb_philo = ft_atoi(av[1]);
@@ -23,7 +23,6 @@ void	data_init(t_philo *philo, t_data *data, char **av)
 		data->eat_nb = ft_atoi(av[5]);
     else
         data->eat_nb = -1;
-    data->philo = philo;
 }
 
 int	mutex_init(t_data *data)
@@ -58,5 +57,5 @@ void	philo_init(t_philo *philo, t_data *data, size_t start_time)
 		philo[i].prog_time = start_time;
 		i++;
 	}
-	pthread_mutex_init(&philo->time_mutex, NULL);
+	pthread_mutex_init(&philo->meal_mutex, NULL);
 }
