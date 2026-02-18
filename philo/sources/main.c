@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 14:38:03 by jimbow           ###   ########.fr       */
+/*   Updated: 2026/02/18 15:37:44 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	*thread_routine(void *data)
 		if (sleeping_process(philo))
 			break ;
 	}
-	philo->data->stop = 1;
 	return (NULL);
 }
 
