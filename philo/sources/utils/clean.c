@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:36:17 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:54:39 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 17:48:17 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	mutex_destroy(t_philo *philo)
 		i++;
 	}
 	free(philo->data->fork);
-	pthread_mutex_destroy(&philo->meal_mutex);
+	pthread_mutex_destroy(&philo->data->meal_mutex);
 	pthread_mutex_destroy(&philo->data->print_mutex);
 	free(philo);
 }

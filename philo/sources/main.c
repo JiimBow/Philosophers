@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 15:37:44 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 18:07:21 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,48 +19,27 @@ void	*thread_routine(void *data)
 	int		f_right;
 
 	philo = (t_philo *)data;
-	f_left = philo->id;
-	f_right = (philo->id + 1) % philo->data->nb_philo;
-	while (philo->data->stop == 0 && philo->nb_meals != philo->data->eat_nb)
+	if (philo->data->nb_philo == 1)
 	{
-		if (thinking_process(philo))
-			break ;
-		if (picking_fork(philo, f_left, f_right))
-			break ;
-		if (eating_process(philo, f_left, f_right))
-			break ;
-		pthread_mutex_unlock(&philo->data->fork[f_left]);
-		pthread_mutex_unlock(&philo->data->fork[f_right]);
-		if (sleeping_process(philo))
-			break ;
+		printf("%lu %d is thinking\n", get_timestamp(philo), philo->id + 1);
+		printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
 	}
-	return (NULL);
-}
-
-void	*monitor_routine(void *data)
-{
-	t_philo	*monitor;
-	int		i;
-
-	monitor = (t_philo *)data;
-	while (monitor->data->stop == 0)
+	else
 	{
-		i = 0;
-		while (i < monitor->data->nb_philo)
+		f_left = philo->id;
+		f_right = (philo->id + 1) % philo->data->nb_philo;
+		while (philo->nb_meals != philo->data->eat_nb)
 		{
-			pthread_mutex_lock(&monitor->data->stop_mutex);
-			pthread_mutex_lock(&monitor->meal_mutex);
-			if (get_timestamp(monitor) - monitor[i].last_meal >= monitor->data->starve_time)
-			{
-				pthread_mutex_unlock(&monitor->meal_mutex);
-				printf("%lu %d died\n", get_timestamp(monitor), monitor->id + 1);
-				monitor->data->stop = 1;
-				pthread_mutex_unlock(&monitor->data->stop_mutex);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&monitor->meal_mutex);
-			pthread_mutex_unlock(&monitor->data->stop_mutex);
-			i++;
+			if (thinking_process(philo))
+				break ;
+			if (picking_fork(philo, f_left, f_right))
+				break ;
+			if (eating_process(philo, f_left, f_right))
+				break ;
+			pthread_mutex_unlock(&philo->data->fork[f_left]);
+			pthread_mutex_unlock(&philo->data->fork[f_right]);
+			if (sleeping_process(philo))
+				break ;
 		}
 	}
 	return (NULL);

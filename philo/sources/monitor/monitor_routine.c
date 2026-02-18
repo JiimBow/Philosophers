@@ -6,9 +6,60 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 15:42:52 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 18:03:03 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
+static int	check_philo_eat(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (philo[i].thread)
+	{
+		if (philo[i].nb_meals != philo->data->eat_nb)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	*monitor_routine(void *data)
+{
+	t_philo	*monitor;
+	int		i;
+
+	monitor = (t_philo *)data;
+	while (1)
+	{
+		i = 0;
+		while (i < monitor->data->nb_philo)
+		{
+			pthread_mutex_lock(&monitor->data->meal_mutex);
+			if (get_timestamp(monitor) - monitor[i].last_meal >= monitor->data->starve_time)
+			{
+				pthread_mutex_unlock(&monitor->data->meal_mutex);
+				printf("%lu %d died\n", get_timestamp(monitor), monitor->id + 1);
+				pthread_mutex_lock(&monitor->data->stop_mutex);
+				monitor->data->stop = 1;
+				pthread_mutex_unlock(&monitor->data->stop_mutex);
+				return (NULL);
+			}
+			pthread_mutex_unlock(&monitor->data->meal_mutex);
+			i++;
+		}
+		if (monitor->data->eat_nb != -1)
+		{
+			if (check_philo_eat(monitor))
+			{
+				pthread_mutex_lock(&monitor->data->stop_mutex);
+				monitor->data->stop = 1;
+				pthread_mutex_unlock(&monitor->data->stop_mutex);
+				return (NULL);
+			}
+		}
+	}
+	return (NULL);
+}

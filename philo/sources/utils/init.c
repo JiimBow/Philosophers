@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:18:59 by jimbow            #+#    #+#             */
-/*   Updated: 2026/02/17 12:16:58 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 18:50:54 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	data_init(t_data *data, char **av)
 	if (av[5])
 		data->eat_nb = ft_atoi(av[5]);
     else
-        data->eat_nb = -1;
+		data->eat_nb = -1;
+	data->order = 1;
 }
 
 int	mutex_init(t_data *data)
@@ -40,6 +41,8 @@ int	mutex_init(t_data *data)
 	}
     pthread_mutex_init(&data->print_mutex, NULL);
     pthread_mutex_init(&data->stop_mutex, NULL);
+	pthread_mutex_init(&data->meal_mutex, NULL);
+	pthread_mutex_init(&data->order_mutex, NULL);
 	return (0);
 }
 
@@ -57,5 +60,4 @@ void	philo_init(t_philo *philo, t_data *data, size_t start_time)
 		philo[i].prog_time = start_time;
 		i++;
 	}
-	pthread_mutex_init(&philo->meal_mutex, NULL);
 }

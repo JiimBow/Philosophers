@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/18 15:42:21 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/18 18:56:35 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,13 @@ SRC			= $(SRC_DIR)main.c \
 			$(BASIC_FUNC)ft_atoi.c \
 			$(BASIC_FUNC)ft_atol.c \
 			$(BASIC_FUNC)check_digit.c \
-			$(PHIL_TREAD)routine_process.c
+			$(PHIL_TREAD)routine_process.c \
+			$(MONITOR)monitor_routine.c
 
 INCLUDES	=-I includes/
 
 OBJECT		=$(SRC:%.c=$(OBJ_DIR)/%.o)
-CFLAGS		=-Wall -Wextra -Werror -g
+CFLAGS		=-Wall -Wextra -Werror -fsanitize=thread -g
 
 all: $(NAME)
 

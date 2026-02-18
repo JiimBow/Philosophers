@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:54:48 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 18:43:07 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct	s_data
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	stop_mutex;
+	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	order_mutex;
 	int				nb_philo;
 	int				stop;
 	size_t			eat_time;
@@ -31,6 +33,7 @@ typedef struct	s_data
 	size_t			sleep_time;
 	int				eat_nb;
 	size_t			prog_time;
+	int				order;
 }	t_data;
 
 typedef struct s_philo
@@ -39,7 +42,6 @@ typedef struct s_philo
 	int				nb_meals;
 	size_t			last_meal;
 	size_t			prog_time;
-	pthread_mutex_t	meal_mutex;
 	pthread_t		thread;
 	t_data			*data;
 	struct timeval	tv;
@@ -67,6 +69,7 @@ int		thinking_process(t_philo *philo);
 int		eating_process(t_philo *philo, int f_left, int f_right);
 int		sleeping_process(t_philo *philo);
 int		picking_fork(t_philo *philo, int f_left, int f_right);
+void	*monitor_routine(void *data);
 
 // PARSING
 int		parser(char **av);
