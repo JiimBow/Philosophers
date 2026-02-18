@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 11:34:22 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 14:38:03 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ void	*thread_routine(void *data)
 	t_philo	*philo;
 	int		f_left;
 	int		f_right;
-	size_t	timestamp;
 
 	philo = (t_philo *)data;
 	f_left = philo->id;
 	f_right = (philo->id + 1) % philo->data->nb_philo;
 	while (philo->data->stop == 0 && philo->nb_meals != philo->data->eat_nb)
 	{
-		timestamp = get_timestamp(philo);
 		if (thinking_process(philo))
 			break ;
 		if (picking_fork(philo, f_left, f_right))
@@ -36,6 +34,7 @@ void	*thread_routine(void *data)
 		if (sleeping_process(philo))
 			break ;
 	}
+	philo->data->stop = 1;
 	return (NULL);
 }
 
@@ -51,13 +50,16 @@ void	*monitor_routine(void *data)
 		while (i < monitor->data->nb_philo)
 		{
 			pthread_mutex_lock(&monitor->data->stop_mutex);
+			pthread_mutex_lock(&monitor->meal_mutex);
 			if (get_timestamp(monitor) - monitor[i].last_meal >= monitor->data->starve_time)
 			{
+				pthread_mutex_unlock(&monitor->meal_mutex);
 				printf("%lu %d died\n", get_timestamp(monitor), monitor->id + 1);
 				monitor->data->stop = 1;
 				pthread_mutex_unlock(&monitor->data->stop_mutex);
 				return (NULL);
 			}
+			pthread_mutex_unlock(&monitor->meal_mutex);
 			pthread_mutex_unlock(&monitor->data->stop_mutex);
 			i++;
 		}

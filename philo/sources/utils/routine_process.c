@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 11:12:27 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 14:20:39 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	eating_process(t_philo *philo, int f_left, int f_right)
 	size_t	eating;
 
 	printf("%lu %d is eating\n", get_timestamp(philo), philo->id + 1);
-	philo->nb_meals++;
 	pthread_mutex_lock(&philo->meal_mutex);
 	philo->last_meal = get_timestamp(philo);
 	pthread_mutex_unlock(&philo->meal_mutex);
+	philo->nb_meals++;
 	eating = 0;
 	while (eating <= philo->data->eat_time)
 	{
