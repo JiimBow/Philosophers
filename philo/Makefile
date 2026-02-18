@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/17 16:37:58 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/18 10:30:37 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,15 +21,20 @@ RESET   := \033[0m
 # DIR
 SRC_DIR		= sources/
 UTILS		= $(SRC_DIR)utils/
+PARSE		= $(SRC_DIR)parsing/
+BASE		= $(UTILS)basic_func/
 BONUS_DIR	= philo_bonus/
 OBJ_DIR		= objects
 
 SRC			= $(SRC_DIR)main.c \
-			$(UTILS)ft_atoi.c \
 			$(UTILS)get_time.c \
 			$(UTILS)init.c \
 			$(UTILS)clean.c \
-			$(UTILS)routine_process.c
+			$(UTILS)routine_process.c \
+			$(PARSE)parser.c \
+			$(BASE)ft_atoi.c \
+			$(BASE)ft_atol.c \
+			$(BASE)check_digit.c
 
 INCLUDES	=-I includes/
 

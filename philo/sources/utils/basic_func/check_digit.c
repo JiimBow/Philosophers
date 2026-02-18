@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   check_digit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 13:36:17 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:54:39 by jodone           ###   ########.fr       */
+/*   Created: 2025/10/13 13:40:38 by jodone            #+#    #+#             */
+/*   Updated: 2026/02/18 10:18:16 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+static int	ft_isdigit(int c)
+{
+	return (('0' <= c && c <= '9'));
+}
 
-void	mutex_destroy(t_philo *philo)
+int	arg_is_digit(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->data->nb_philo)
+	while (str && str[i])
 	{
-		pthread_mutex_destroy(&philo->data->fork[i]);
+		if (!ft_isdigit(str[i]))
+			return (0);
 		i++;
 	}
-	free(philo->data->fork);
-	pthread_mutex_destroy(&philo->meal_mutex);
-	pthread_mutex_destroy(&philo->data->print_mutex);
-	free(philo);
+	return (1);
 }

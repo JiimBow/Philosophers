@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/17 17:37:49 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 10:55:18 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	*monitor_routine(void *data)
 				printf("%lu %d died\n", get_timestamp(monitor), monitor->id + 1);
 				monitor->data->stop = 1;
 				pthread_mutex_unlock(&monitor->data->stop_mutex);
-				kill_thread(monitor);
-				mutex_destroy(monitor);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&monitor->data->stop_mutex);
@@ -85,6 +83,7 @@ void	create_philo(t_philo *philo, t_data *data)
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+	mutex_destroy(philo);
 }
 
 int	main(int ac, char **av)
@@ -95,6 +94,8 @@ int	main(int ac, char **av)
 	data.prog_time = 0;
 	if (ac < 5 || ac > 6)
 		return (1);
+	if (!parser(av))
+		return (1);
 	data_init(&data, av);
 	mutex_init(&data);
 	philo = malloc(data.nb_philo * sizeof(t_philo));
@@ -103,5 +104,4 @@ int	main(int ac, char **av)
 	philo_init(philo, &data, get_time(philo));
 	create_philo(philo, &data);
 	return (0);
-	// mutex_destroy(&data);
 }

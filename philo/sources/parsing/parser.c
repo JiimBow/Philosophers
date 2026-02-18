@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 13:36:17 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:54:39 by jodone           ###   ########.fr       */
+/*   Created: 2026/02/18 10:03:36 by jodone            #+#    #+#             */
+/*   Updated: 2026/02/18 10:57:48 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	mutex_destroy(t_philo *philo)
+int	parser(char **av)
 {
 	int	i;
 
-	i = 0;
-	while (i < philo->data->nb_philo)
+	if (ft_atoi(av[1]) <= 0)
+		return (0);
+	i = 1;
+	while (av && av[i])
 	{
-		pthread_mutex_destroy(&philo->data->fork[i]);
+		if (!av[i][0])
+			return (0);
+		if (!arg_is_digit(av[i]) || ft_atol(av[i]) > 2147483647
+			|| ft_atol(av[i]) < -2147483648)
+			return (0);
 		i++;
 	}
-	free(philo->data->fork);
-	pthread_mutex_destroy(&philo->meal_mutex);
-	pthread_mutex_destroy(&philo->data->print_mutex);
-	free(philo);
+	return (1);
 }

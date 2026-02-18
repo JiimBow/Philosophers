@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/17 17:37:32 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 10:54:48 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,12 @@ typedef struct s_philo
 	struct timeval	tv;
 }	t_philo;
 
-// UTILS
+// BASIC_FUNCTION
+int		arg_is_digit(char *str);
 int		ft_atoi(const char *nptr);
+long	ft_atol(const char *nptr);
+
+// UTILS
 size_t	get_time(t_philo *philo);
 size_t	get_timestamp(t_philo *philo);
 
@@ -57,12 +61,14 @@ void	philo_init(t_philo *philo, t_data *data, size_t start_time);
 
 // MEMORY_MANAGEMENT
 void	mutex_destroy(t_philo *philo);
-void	kill_thread(t_philo *philo);
 
 // ROUTINE_PROCESS
 int		thinking_process(t_philo *philo);
 int		eating_process(t_philo *philo, int f_left, int f_right);
 int		sleeping_process(t_philo *philo);
 int		picking_fork(t_philo *philo, int f_left, int f_right);
+
+// PARSING
+int		parser(char **av);
 
 #endif
