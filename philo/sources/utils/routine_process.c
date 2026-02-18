@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/17 17:38:52 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:12:27 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ int	sleeping_process(t_philo *philo)
 int	picking_fork(t_philo *philo, int f_left, int f_right)
 {
 	pthread_mutex_lock(&philo->data->fork[f_right]);
+	if (philo->data->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->data->fork[f_right]);
+		return (1);
+	}
 	printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
 	pthread_mutex_lock(&philo->data->fork[f_left]);
 	if (philo->data->stop == 1)

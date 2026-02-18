@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:55:18 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:34:22 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*thread_routine(void *data)
 	philo = (t_philo *)data;
 	f_left = philo->id;
 	f_right = (philo->id + 1) % philo->data->nb_philo;
-	while (philo->data->stop == 0)
+	while (philo->data->stop == 0 && philo->nb_meals != philo->data->eat_nb)
 	{
 		timestamp = get_timestamp(philo);
 		if (thinking_process(philo))
@@ -83,6 +83,7 @@ void	create_philo(t_philo *philo, t_data *data)
 		pthread_join(philo[i].thread, NULL);
 		i++;
 	}
+	pthread_join(monitor, NULL);
 	mutex_destroy(philo);
 }
 
