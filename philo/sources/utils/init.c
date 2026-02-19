@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:18:59 by jimbow            #+#    #+#             */
-/*   Updated: 2026/02/19 16:02:23 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:21:41 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ int	mutex_init(t_data *data)
 		pthread_mutex_init(&data->fork[i], NULL);
 		i++;
 	}
-    pthread_mutex_init(&data->print_mutex, NULL);
-    pthread_mutex_init(&data->stop_mutex, NULL);
-	pthread_mutex_init(&data->meal_mutex, NULL);
-	pthread_mutex_init(&data->order_mutex, NULL);
 	pthread_mutex_init(&data->data_mutex, NULL);
 	return (0);
 }

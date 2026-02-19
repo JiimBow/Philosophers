@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 16:04:29 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:21:31 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static int	check_philo_eat(t_philo *philo)
 	i = 0;
 	while (philo[i].thread)
 	{
-		pthread_mutex_lock(&philo->data->meal_mutex);
+		pthread_mutex_lock(&philo->data->data_mutex);
 		if (philo[i].nb_meals != philo->data->eat_nb)
 		{
-			pthread_mutex_unlock(&philo->data->meal_mutex);
+			pthread_mutex_unlock(&philo->data->data_mutex);
 			return (0);
 		}
-		pthread_mutex_unlock(&philo->data->meal_mutex);
+		pthread_mutex_unlock(&philo->data->data_mutex);
 		i++;
 	}
 	return (1);

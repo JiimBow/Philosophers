@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 16:02:07 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:21:07 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@
 typedef struct	s_data
 {
 	pthread_mutex_t	*fork;
-	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	stop_mutex;
-	pthread_mutex_t	meal_mutex;
-	pthread_mutex_t	order_mutex;
 	pthread_mutex_t	data_mutex;
 	int				nb_philo;
 	int				stop;
