@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 17:02:39 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 17:45:32 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,13 @@ int	sleeping_process(t_philo *philo)
 
 int	picking_fork(t_philo *philo, int f_left, int f_right)
 {
-	usleep(philo->id * 10);
+	usleep(philo->id * 100);
 	if (philo->id % 2 != 0 && philo->nb_meals == 0)
-		usleep(philo->data->eat_time * 1000);
-	else if (philo->id %2 == 0 && philo->id + 1 == philo->data->nb_philo && philo->nb_meals == 0)
-		usleep(philo->data->eat_time * 2000);
+		usleep_time(philo, philo->data->eat_time);
+	// if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo && philo->nb_meals == 0)
+	// 	usleep_time(philo, philo->data->eat_time * 2);
+	// if (philo->id % 2 == 0 && philo->nb_meals % 2 != 0)
+	// 	usleep_time(philo, philo->data->eat_time);
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(&philo->data->fork[f_left]);
 	else
