@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 11:33:37 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:04:29 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,26 @@ void	*monitor_routine(void *data)
 	while (1)
 	{
 		i = 0;
-		usleep(100);
 		while (i < monitor->data->nb_philo)
 		{
-			pthread_mutex_lock(&monitor->data->meal_mutex);
+			pthread_mutex_lock(&monitor->data->data_mutex);
 			if (get_timestamp(monitor) - monitor[i].last_meal >= monitor->data->starve_time)
 			{
-				pthread_mutex_unlock(&monitor->data->meal_mutex);
-				printf("%lu %d died\n", get_timestamp(monitor), monitor->id + 1);
-				pthread_mutex_lock(&monitor->data->stop_mutex);
+				printf("%lu %d died\n", get_timestamp(monitor), monitor[i].id + 1);
 				monitor->data->stop = 1;
-				pthread_mutex_unlock(&monitor->data->stop_mutex);
+				pthread_mutex_unlock(&monitor->data->data_mutex);
 				return (NULL);
 			}
-			pthread_mutex_unlock(&monitor->data->meal_mutex);
+			pthread_mutex_unlock(&monitor->data->data_mutex);
 			i++;
 		}
 		if (monitor->data->eat_nb != -1)
 		{
 			if (check_philo_eat(monitor))
 			{
-				pthread_mutex_lock(&monitor->data->stop_mutex);
+				pthread_mutex_lock(&monitor->data->data_mutex);
 				monitor->data->stop = 1;
-				pthread_mutex_unlock(&monitor->data->stop_mutex);
+				pthread_mutex_unlock(&monitor->data->data_mutex);
 				return (NULL);
 			}
 		}
