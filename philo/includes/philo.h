@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 16:29:22 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:40:22 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		thinking_process(t_philo *philo);
 int		eating_process(t_philo *philo, int f_left, int f_right);
 int		sleeping_process(t_philo *philo);
 int		picking_fork(t_philo *philo, int f_left, int f_right);
+int		usleep_time(t_philo *philo, size_t limit);
 void	*monitor_routine(void *data);
 
 // PARSING

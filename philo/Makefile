@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/19 14:22:49 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/19 16:38:50 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC			= $(SRC_DIR)main.c \
 			$(BASIC_FUNC)ft_atol.c \
 			$(BASIC_FUNC)check_digit.c \
 			$(PHIL_TREAD)routine_process.c \
+			$(PHIL_TREAD)usleep_time.c \
 			$(MONITOR)monitor_routine.c
 
 INCLUDES	=-I includes/
