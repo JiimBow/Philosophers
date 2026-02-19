@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 18:52:22 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 11:00:19 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	eating_process(t_philo *philo, int f_left, int f_right)
 	printf("%lu %d is eating\n", get_timestamp(philo), philo->id + 1);
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	philo->last_meal = get_timestamp(philo);
-	pthread_mutex_unlock(&philo->data->meal_mutex);
 	philo->nb_meals++;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
 	eating = 0;
 	while (eating <= philo->data->eat_time)
 	{

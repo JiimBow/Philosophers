@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 18:03:03 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 11:01:27 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,13 @@ static int	check_philo_eat(t_philo *philo)
 	i = 0;
 	while (philo[i].thread)
 	{
+		pthread_mutex_lock(&philo->data->meal_mutex);
 		if (philo[i].nb_meals != philo->data->eat_nb)
+		{
+			pthread_mutex_unlock(&philo->data->meal_mutex);
 			return (0);
+		}
+		pthread_mutex_unlock(&philo->data->meal_mutex);
 		i++;
 	}
 	return (1);
@@ -50,6 +55,14 @@ void	*monitor_routine(void *data)
 			pthread_mutex_unlock(&monitor->data->meal_mutex);
 			i++;
 		}
+		pthread_mutex_lock(&monitor->data->order_mutex);
+		pthread_mutex_lock(&monitor->data->meal_mutex);
+		if (monitor[0].nb_meals % 2 == 0)
+			monitor->data->order = 0;
+		else
+			monitor->data->order = 1;
+		pthread_mutex_unlock(&monitor->data->order_mutex);
+		pthread_mutex_unlock(&monitor->data->meal_mutex);
 		if (monitor->data->eat_nb != -1)
 		{
 			if (check_philo_eat(monitor))
