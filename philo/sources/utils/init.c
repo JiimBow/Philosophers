@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:18:59 by jimbow            #+#    #+#             */
-/*   Updated: 2026/02/19 16:21:41 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:29:27 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	data_init(t_data *data, char **av)
 		data->eat_nb = ft_atoi(av[5]);
     else
 		data->eat_nb = -1;
-	data->order = 1;
 }
 
 int	mutex_init(t_data *data)

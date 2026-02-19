@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 16:21:07 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:29:22 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ typedef struct	s_data
 	size_t			starve_time;
 	size_t			sleep_time;
 	int				eat_nb;
-	size_t			prog_time;
-	int				order;
 }	t_data;
 
 typedef struct s_philo

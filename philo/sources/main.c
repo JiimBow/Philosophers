@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 18:07:21 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:29:18 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	main(int ac, char **av)
 	t_data	data;
 	t_philo	*philo;
 
-	data.prog_time = 0;
 	if (ac < 5 || ac > 6)
 		return (1);
 	if (!parser(av))
