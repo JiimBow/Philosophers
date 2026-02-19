@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 17:45:32 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 20:15:09 by jimbow           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,3 +92,55 @@ int	picking_fork(t_philo *philo, int f_left, int f_right)
 	pthread_mutex_unlock(&philo->data->data_mutex);
 	return (0);
 }
+
+// static void	order_passage(t_data *data, t_philo *philo, int *first)
+// {
+// 	if (data->time_to_die < data->time_to_eat)
+// 		return ;
+// 	if (data->nb_philo % 2 == 0)
+// 	{
+// 		if (*first == 1 && (philo->id + 1) % 2 == 0)
+// 			usleep(data->time_to_eat * THOUSAND);
+// 		*first = 0;
+// 	}
+// 	if (data->nb_philo % 2 == 1)
+// 	{
+// 		if ((philo->id + 1) % 2 == 0)
+// 			usleep(data->time_to_eat * THOUSAND);
+// 		if (philo->id + 1 == data->nb_philo)
+// 			usleep((data->time_to_eat + 1) * THOUSAND);
+// 		if (*first == 0 && (philo->id + 1) % 2 == 1
+// 			&& philo->id + 1 != data->nb_philo)
+// 			usleep(data->time_to_eat * THOUSAND);
+// 		*first = 0;
+// 	}
+// }
+
+// void	*routine(void *arg)
+// {
+// 	t_philo	*philo;
+// 	int		first;
+
+// 	philo = (t_philo *)arg;
+// 	first = 1;
+// 	pthread_mutex_lock(&philo->data->mutex);
+// 	philo->number_of_eating = philo->data->rotation;
+// 	philo->start_rotation = get_time_in_ms();
+// 	pthread_mutex_unlock(&philo->data->mutex);
+// 	while (1)
+// 	{
+// 		if (is_thinking(philo->data, philo))
+// 			break ;
+// 		order_passage(philo->data, philo, &first);
+// 		if (is_eating(philo->data, philo))
+// 			break ;
+// 		pthread_mutex_lock(&philo->data->mutex);
+// 		philo->number_of_eating--;
+// 		pthread_mutex_unlock(&philo->data->mutex);
+// 		if (philo->number_of_eating == 0)
+// 			break ;
+// 		if (is_sleeping(philo->data, philo))
+// 			break ;
+// 	}
+// 	return (NULL);
+// }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
+#    By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/19 16:38:50 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/19 20:09:06 by jimbow           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRC			= $(SRC_DIR)main.c \
 INCLUDES	=-I includes/
 
 OBJECT		=$(SRC:%.c=$(OBJ_DIR)/%.o)
-CFLAGS		=-Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS		=-Wall -Wextra -Werror  -g
 
 all: $(NAME)
 
