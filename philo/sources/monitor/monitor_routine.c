@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 11:01:27 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/19 11:33:37 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	*monitor_routine(void *data)
 	while (1)
 	{
 		i = 0;
+		usleep(100);
 		while (i < monitor->data->nb_philo)
 		{
 			pthread_mutex_lock(&monitor->data->meal_mutex);
@@ -55,14 +56,6 @@ void	*monitor_routine(void *data)
 			pthread_mutex_unlock(&monitor->data->meal_mutex);
 			i++;
 		}
-		pthread_mutex_lock(&monitor->data->order_mutex);
-		pthread_mutex_lock(&monitor->data->meal_mutex);
-		if (monitor[0].nb_meals % 2 == 0)
-			monitor->data->order = 0;
-		else
-			monitor->data->order = 1;
-		pthread_mutex_unlock(&monitor->data->order_mutex);
-		pthread_mutex_unlock(&monitor->data->meal_mutex);
 		if (monitor->data->eat_nb != -1)
 		{
 			if (check_philo_eat(monitor))
