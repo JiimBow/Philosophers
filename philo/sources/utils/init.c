@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:18:59 by jimbow            #+#    #+#             */
-/*   Updated: 2026/02/24 15:44:55 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:55:16 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,18 @@ int	mutex_init(t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		pthread_mutex_init(&data->fork[i], NULL);
+		if (pthread_mutex_init(&data->fork[i], NULL) != 0)
+		{
+			mutex_error_destroy(data, i, 0);
+			return (1);
+		}
 		i++;
 	}
-	pthread_mutex_init(&data->data_mutex, NULL);
+	if (pthread_mutex_init(&data->data_mutex, NULL) != 0)
+	{
+		mutex_error_destroy(data, i, 1);
+		return (1);
+	}
 	return (0);
 }
 

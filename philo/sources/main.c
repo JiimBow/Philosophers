@@ -6,13 +6,13 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 16:55:14 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:00:42 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-void	create_philo(t_philo *philo, t_data *data)
+static int	create_philo(t_philo *philo, t_data *data)
 {
 	int			i;
 	pthread_t	monitor;
@@ -20,10 +20,13 @@ void	create_philo(t_philo *philo, t_data *data)
 	i = 0;
 	while (i < data->nb_philo)
 	{
-		pthread_create(&philo[i].thread, NULL, thread_routine, &philo[i]);
+		if (pthread_create(&philo[i].thread, NULL,
+				thread_routine, &philo[i]) != 0)
+			return (1);
 		i++;
 	}
-	pthread_create(&monitor, NULL, monitor_routine, philo);
+	if (pthread_create(&monitor, NULL, monitor_routine, philo) != 0)
+		return (1);
 	i = 0;
 	while (i < data->nb_philo)
 	{
@@ -31,7 +34,9 @@ void	create_philo(t_philo *philo, t_data *data)
 		i++;
 	}
 	pthread_join(monitor, NULL);
-	mutex_destroy(philo);
+	mutex_destroy(data);
+	free(philo);
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -49,10 +54,16 @@ int	main(int ac, char **av)
 	philo = malloc(data.nb_philo * sizeof(t_philo));
 	if (!philo)
 	{
-		free(data.fork);
+		mutex_destroy(&data);
+		free(philo);
 		return (1);
 	}
 	philo_init(philo, &data, get_time(philo));
-	create_philo(philo, &data);
+	if (create_philo(philo, &data) == 1)
+	{
+		mutex_destroy(&data);
+		free(philo);
+		return (1);
+	}
 	return (0);
 }
