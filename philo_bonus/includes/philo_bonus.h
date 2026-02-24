@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 18:24:43 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:41:00 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <sys/wait.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+
 
 // BASIC_FUNC
 long	ft_atol(const char *nptr);
