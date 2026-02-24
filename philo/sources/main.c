@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:13 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 14:23:58 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 16:55:14 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,14 @@ int	main(int ac, char **av)
 	if (!parser(av))
 		return (1);
 	data_init(&data, av);
-	mutex_init(&data);
+	if (mutex_init(&data) == 1)
+		return (1);
 	philo = malloc(data.nb_philo * sizeof(t_philo));
 	if (!philo)
+	{
+		free(data.fork);
 		return (1);
+	}
 	philo_init(philo, &data, get_time(philo));
 	create_philo(philo, &data);
 	return (0);
