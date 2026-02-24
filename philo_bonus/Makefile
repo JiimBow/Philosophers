@@ -6,12 +6,12 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/24 18:30:55 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/24 18:25:22 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=cc
-NAME=philo
+NAME=philo_bonus
 
 # COLOR
 RED     := \033[31m
@@ -23,23 +23,14 @@ SRC_DIR		= sources/
 UTILS		= $(SRC_DIR)utils/
 PARSING		= $(SRC_DIR)parsing/
 BASIC_FUNC	= $(UTILS)basic_func/
-MONITOR		= $(SRC_DIR)monitor/
-PHIL_TREAD	= $(SRC_DIR)phil_thread/
 OBJ_DIR		= objects
 
 SRC			= $(SRC_DIR)main.c \
-			$(UTILS)get_time.c \
-			$(UTILS)init.c \
-			$(UTILS)clean.c \
+			$(UTILS)error_management.c \
 			$(PARSING)parser.c \
-			$(BASIC_FUNC)ft_atoi.c \
-			$(BASIC_FUNC)ft_atol.c \
 			$(BASIC_FUNC)check_digit.c \
-			$(PHIL_TREAD)routine_process.c \
-			$(PHIL_TREAD)usleep_time.c \
-			$(PHIL_TREAD)thread_routine.c \
-			$(MONITOR)monitor_routine.c \
-			$(UTILS)error_management.c
+			$(BASIC_FUNC)ft_atoi.c \
+			$(BASIC_FUNC)ft_atol.c
 
 INCLUDES	=-I includes/
 

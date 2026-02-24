@@ -6,11 +6,9 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 13:00:23 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:28:45 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:23:43 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <philo.h>
 
 int	ft_atoi(const char *nptr)
 {

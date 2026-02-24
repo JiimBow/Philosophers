@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/23 10:58:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 18:00:12 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:31:31 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	philo_init(t_philo *philo, t_data *data, size_t start_time);
 // MEMORY_MANAGEMENT
 void	mutex_destroy(t_data *data);
 void	mutex_error_destroy(t_data *data, int i, int d_mutex);
+int		error_message(int code);
 
 // ROUTINE_PROCESS
 void	philo_routine_start(t_philo *philo);

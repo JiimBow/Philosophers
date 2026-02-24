@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 10:29:25 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 18:23:48 by jodone           ###   ########.fr       */
+/*   Created: 2026/02/09 13:00:23 by jodone            #+#    #+#             */
+/*   Updated: 2026/02/24 18:23:32 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-long	ft_atol(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
-	int		i;
-	long	result;
-	int		sign;
+	int	i;
+	int	result;
+	int	sign;
 
 	sign = 1;
 	result = 0;
