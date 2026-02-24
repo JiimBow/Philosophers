@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 11:30:07 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:16:38 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ int	thinking_process(t_philo *philo)
 int	eating_process(t_philo *philo, int f_left, int f_right)
 {
 	pthread_mutex_lock(&philo->data->data_mutex);
+	if (philo->data->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->data->data_mutex);
+		return (1);
+	}
 	printf("%lu %d is eating\n", get_timestamp(philo), philo->id + 1);
 	philo->last_meal = get_timestamp(philo);
 	philo->nb_meals++;
@@ -44,6 +49,11 @@ int	eating_process(t_philo *philo, int f_left, int f_right)
 int	sleeping_process(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->data_mutex);
+	if (philo->data->stop == 1)
+	{
+		pthread_mutex_unlock(&philo->data->data_mutex);
+		return (1);
+	}
 	printf("%lu %d is sleeping\n", get_timestamp(philo), philo->id + 1);
 	pthread_mutex_unlock(&philo->data->data_mutex);
 	if (!usleep_time(philo, philo->data->sleep_time))
@@ -56,16 +66,16 @@ int	picking_fork(t_philo *philo, int f_left, int f_right)
 	if (philo->data->nb_philo % 2 == 0)
 	{
 		if (philo->id % 2 != 0 && philo->nb_meals == 0)
-			usleep_time(philo, philo->data->eat_time);
+			usleep_time(philo, 50);
 	}
 	else
 	{
 		if (philo->id % 2 != 0)
-			usleep_time(philo, philo->data->eat_time);
-		if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo && philo->nb_meals == 0)
-			usleep_time(philo, philo->data->eat_time * 2);
+			usleep_time(philo, 50);
+		if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo)
+			usleep_time(philo, 60);
 		else if (philo->id % 2 == 0 && philo->nb_meals != 0)
-			usleep_time(philo, philo->data->eat_time);	
+			usleep_time(philo, 50);	
 	}
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(&philo->data->fork[f_left]);

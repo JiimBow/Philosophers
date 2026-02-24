@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   usleep_time.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jimbow <jimbow@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 16:35:40 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/19 20:39:20 by jimbow           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:15:06 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	usleep_time(t_philo *philo, size_t limit)
 	while (sleep_time < limit)
 	{
 		start_sleep = get_time(philo);
-		usleep(10 * 1000);
+		usleep(10);
 		sleep_time += get_time(philo) - start_sleep;
 		pthread_mutex_lock(&philo->data->data_mutex);
 		if (philo->data->stop == 1)
