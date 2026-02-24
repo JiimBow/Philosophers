@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 15:48:31 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 17:29:33 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	check_philo_eat(t_philo *philo)
 	int	i;
 
 	i = 0;
-	while (philo[i].thread)
+	while (i < philo->data->nb_philo)
 	{
 		pthread_mutex_lock(&philo->data->data_mutex);
 		if (philo[i].nb_meals != philo->data->eat_nb)
@@ -40,7 +40,7 @@ static int	check_philo_die(t_philo *monitor)
 	{
 		pthread_mutex_lock(&monitor->data->data_mutex);
 		if (get_timestamp(monitor) - monitor[i].last_meal
-			>= monitor->data->starve_time)
+			>= monitor->data->starve_time && monitor[i].nb_meals != monitor->data->eat_nb)
 		{
 			printf("%lu %d died\n", get_timestamp(monitor), monitor[i].id + 1);
 			monitor->data->stop = 1;
