@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 16:35:40 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 15:45:16 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:52:39 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ void	philo_routine_start(t_philo *philo)
 	if (philo->data->nb_philo % 2 == 0)
 	{
 		if (philo->id % 2 != 0 && philo->nb_meals == 0)
-			usleep_time(philo, 50);
+			usleep_time(philo, 101);
 	}
 	else
 	{
 		if (philo->id % 2 != 0)
-			usleep_time(philo, 50);
+			usleep_time(philo, 101);
 		if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo)
-			usleep_time(philo, 60);
+			usleep_time(philo, 120);
 		else if (philo->id % 2 == 0 && philo->nb_meals != 0)
-			usleep_time(philo, 50);
+			usleep_time(philo, 101);
 	}
 }
 
@@ -39,7 +39,7 @@ int	usleep_time(t_philo *philo, size_t limit)
 	while (sleep_time < limit)
 	{
 		start_sleep = get_time(philo);
-		usleep(10);
+		usleep(500);
 		sleep_time += get_time(philo) - start_sleep;
 		pthread_mutex_lock(&philo->data->data_mutex);
 		if (philo->data->stop == 1)
