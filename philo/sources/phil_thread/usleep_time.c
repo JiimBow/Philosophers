@@ -6,11 +6,29 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 16:35:40 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 15:15:06 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:45:16 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
+
+void	philo_routine_start(t_philo *philo)
+{
+	if (philo->data->nb_philo % 2 == 0)
+	{
+		if (philo->id % 2 != 0 && philo->nb_meals == 0)
+			usleep_time(philo, 50);
+	}
+	else
+	{
+		if (philo->id % 2 != 0)
+			usleep_time(philo, 50);
+		if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo)
+			usleep_time(philo, 60);
+		else if (philo->id % 2 == 0 && philo->nb_meals != 0)
+			usleep_time(philo, 50);
+	}
+}
 
 int	usleep_time(t_philo *philo, size_t limit)
 {

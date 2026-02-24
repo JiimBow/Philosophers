@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:18:59 by jimbow            #+#    #+#             */
-/*   Updated: 2026/02/19 16:29:27 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:44:55 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	data_init(t_data *data, char **av)
 {
-    data->stop = 0;
+	data->stop = 0;
 	data->nb_philo = ft_atoi(av[1]);
 	data->starve_time = ft_atoi(av[2]);
 	data->eat_time = ft_atoi(av[3]);
 	data->sleep_time = ft_atoi(av[4]);
 	if (av[5])
 		data->eat_nb = ft_atoi(av[5]);
-    else
+	else
 		data->eat_nb = -1;
 }
 

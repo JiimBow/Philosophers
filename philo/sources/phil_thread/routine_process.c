@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 16:26:50 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 15:16:38 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 15:43:23 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,51 +61,47 @@ int	sleeping_process(t_philo *philo)
 	return (0);
 }
 
+static int	print_fork(t_philo *philo, int f_left, int f_right, int nb_fork)
+{
+	pthread_mutex_lock(&philo->data->data_mutex);
+	if (philo->data->stop == 1)
+	{
+		if (nb_fork == 1)
+		{
+			pthread_mutex_unlock(&philo->data->data_mutex);
+			if (philo->id % 2 == 0)
+				pthread_mutex_unlock(&philo->data->fork[f_left]);
+			else
+				pthread_mutex_unlock(&philo->data->fork[f_right]);
+			return (1);
+		}
+		else
+		{
+			pthread_mutex_unlock(&philo->data->data_mutex);
+			pthread_mutex_unlock(&philo->data->fork[f_left]);
+			pthread_mutex_unlock(&philo->data->fork[f_right]);
+			return (1);
+		}
+	}
+	printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
+	pthread_mutex_unlock(&philo->data->data_mutex);
+	return (0);
+}
+
 int	picking_fork(t_philo *philo, int f_left, int f_right)
 {
-	if (philo->data->nb_philo % 2 == 0)
-	{
-		if (philo->id % 2 != 0 && philo->nb_meals == 0)
-			usleep_time(philo, 50);
-	}
-	else
-	{
-		if (philo->id % 2 != 0)
-			usleep_time(philo, 50);
-		if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo)
-			usleep_time(philo, 60);
-		else if (philo->id % 2 == 0 && philo->nb_meals != 0)
-			usleep_time(philo, 50);	
-	}
+	philo_routine_start(philo);
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(&philo->data->fork[f_left]);
 	else
 		pthread_mutex_lock(&philo->data->fork[f_right]);
-	pthread_mutex_lock(&philo->data->data_mutex);
-	if (philo->data->stop == 1)
-	{
-		pthread_mutex_unlock(&philo->data->data_mutex);
-		if (philo->id % 2 == 0)
-			pthread_mutex_unlock(&philo->data->fork[f_left]);
-		else
-			pthread_mutex_unlock(&philo->data->fork[f_right]);
+	if (print_fork(philo, f_left, f_right, 1) == 1)
 		return (1);
-	}
-	printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
-	pthread_mutex_unlock(&philo->data->data_mutex);
 	if (philo->id % 2 == 0)
 		pthread_mutex_lock(&philo->data->fork[f_right]);
 	else
 		pthread_mutex_lock(&philo->data->fork[f_left]);
-	pthread_mutex_lock(&philo->data->data_mutex);
-	if (philo->data->stop == 1)
-	{
-		pthread_mutex_unlock(&philo->data->data_mutex);
-		pthread_mutex_unlock(&philo->data->fork[f_left]);
-		pthread_mutex_unlock(&philo->data->fork[f_right]);
+	if (print_fork(philo, f_left, f_right, 0) == 1)
 		return (1);
-	}
-	printf("%lu %d has taken a fork\n", get_timestamp(philo), philo->id + 1);
-	pthread_mutex_unlock(&philo->data->data_mutex);
 	return (0);
 }
