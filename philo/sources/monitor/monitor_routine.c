@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:42:44 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/24 17:29:33 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/24 18:02:53 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int	check_philo_die(t_philo *monitor)
 	{
 		pthread_mutex_lock(&monitor->data->data_mutex);
 		if (get_timestamp(monitor) - monitor[i].last_meal
-			>= monitor->data->starve_time && monitor[i].nb_meals != monitor->data->eat_nb)
+			>= monitor->data->starve_time
+			&& monitor[i].nb_meals != monitor->data->eat_nb)
 		{
 			printf("%lu %d died\n", get_timestamp(monitor), monitor[i].id + 1);
 			monitor->data->stop = 1;
