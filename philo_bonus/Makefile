@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/24 18:25:22 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/25 18:32:48 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,16 @@ SRC_DIR		= sources/
 UTILS		= $(SRC_DIR)utils/
 PARSING		= $(SRC_DIR)parsing/
 BASIC_FUNC	= $(UTILS)basic_func/
+PHIL_THREAD	= $(SRC_DIR)phil_thread/
 OBJ_DIR		= objects
 
 SRC			= $(SRC_DIR)main.c \
 			$(UTILS)error_management.c \
+			$(UTILS)init.c \
+			$(UTILS)get_time.c \
+			$(PHIL_THREAD)thread_routine.c \
+			$(PHIL_THREAD)routine_process.c \
+			$(PHIL_THREAD)usleep_time.c \
 			$(PARSING)parser.c \
 			$(BASIC_FUNC)check_digit.c \
 			$(BASIC_FUNC)ft_atoi.c \

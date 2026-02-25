@@ -5,25 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/24 13:54:23 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/25 12:09:35 by jodone           ###   ########.fr       */
+/*   Created: 2026/02/25 11:44:04 by jodone            #+#    #+#             */
+/*   Updated: 2026/02/25 12:10:48 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <philo.h>
+#include <philo_bonus.h>
 
-static void	philo_routine(t_philo *philo, int f_left, int f_right)
+static void	philo_routine(t_philo *philo)
 {
 	while (philo->nb_meals != philo->data->eat_nb)
 	{
 		if (thinking_process(philo))
 			break ;
-		if (picking_fork(philo, f_left, f_right))
+		if (picking_fork(philo))
 			break ;
-		if (eating_process(philo, f_left, f_right))
+		if (eating_process(philo))
 			break ;
-		pthread_mutex_unlock(&philo->data->fork[f_left]);
-		pthread_mutex_unlock(&philo->data->fork[f_right]);
 		if (sleeping_process(philo))
 			break ;
 	}
@@ -32,21 +30,15 @@ static void	philo_routine(t_philo *philo, int f_left, int f_right)
 void	*thread_routine(void *data)
 {
 	t_philo	*philo;
-	int		f_left;
-	int		f_right;
 
 	philo = (t_philo *)data;
 	if (philo->data->nb_philo == 1)
 	{
-		printf("%lu %d is thinking\n", get_timestamp(philo), philo->id + 1);
+		printf("%lu %d is thinking\n", get_timestamp(philo->data), philo->id + 1);
 		printf("%lu %d has taken a fork\n",
-			get_timestamp(philo), philo->id + 1);
+			get_timestamp(philo->data), philo->id + 1);
 	}
 	else
-	{
-		f_left = philo->id;
-		f_right = (philo->id + 1) % philo->data->nb_philo;
-		philo_routine(philo, f_left, f_right);
-	}
+		philo_routine(philo);
 	return (NULL);
 }
