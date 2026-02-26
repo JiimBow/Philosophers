@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 11:05:23 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:03:57 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_data
 {
 	sem_t			*sem_data;
 	sem_t			*fork;
+	sem_t			*philo_die;
+	sem_t			*monitor_check;
 	int				nb_philo;
 	size_t			eat_time;
 	size_t			starve_time;
@@ -67,6 +69,11 @@ int		thinking_process(t_philo *philo);
 int		picking_fork(t_philo *philo);
 int		eating_process(t_philo *philo);
 int		sleeping_process(t_philo *philo);
+void	checker_routine(t_philo *philo);
+void	*die_checker_routine(void *data);
+
+// MONITOR
+void	*monitor_routine(void *data);
 
 // ERROR_MANAGEMENT
 int		error_message(int code);
