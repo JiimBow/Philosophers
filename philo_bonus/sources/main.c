@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 16:48:59 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 17:22:00 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	create_philo(t_data *data, t_philo *philo)
 	pid_t	*pid;
 
 	i = 0;
-	pid = malloc(data->nb_philo + 1 * sizeof(pid_t));
+	pid = malloc(data->nb_philo * sizeof(pid_t));
 	if (!pid)
 	{
 		;
