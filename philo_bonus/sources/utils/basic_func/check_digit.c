@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:40:38 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/18 10:18:16 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:08:10 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	arg_is_digit(char *str)
 	int	i;
 
 	i = 0;
+	if (str && str[0] == '+')
+		i++;
 	while (str && str[i])
 	{
 		if (!ft_isdigit(str[i]))

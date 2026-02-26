@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/26 11:54:50 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/26 17:01:41 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,7 @@ SRC			= $(SRC_DIR)main.c \
 			$(PARSING)parser.c \
 			$(BASIC_FUNC)check_digit.c \
 			$(BASIC_FUNC)ft_atoi.c \
-			$(BASIC_FUNC)ft_atol.c \
-			$(MONITOR)monitor_routine.c
+			$(BASIC_FUNC)ft_atol.c
 
 INCLUDES	=-I includes/
 

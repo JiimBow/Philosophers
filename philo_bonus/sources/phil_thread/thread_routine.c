@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:44:04 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 15:43:30 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 17:00:59 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	*thread_routine(void *data)
 	}
 	else
 		philo_routine(philo);
+	usleep(100);
 	sem_post(philo->data->first_death);
 	return (NULL);
 }

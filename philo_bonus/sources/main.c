@@ -6,19 +6,11 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 15:35:15 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:48:59 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo_bonus.h>
-
-void	monitor_thread(t_philo *philo)
-{
-	pthread_t	monitor;
-
-	pthread_create(&monitor, NULL, monitor_routine, philo);
-	pthread_join(monitor, NULL);
-}
 
 void	create_thread(t_philo *philo)
 {
@@ -40,6 +32,10 @@ void	create_philo(t_data *data, t_philo *philo)
 
 	i = 0;
 	pid = malloc(data->nb_philo + 1 * sizeof(pid_t));
+	if (!pid)
+	{
+		;
+	}
 	while (i < data->nb_philo)
 	{
 		pid[i] = fork();
@@ -56,18 +52,8 @@ void	create_philo(t_data *data, t_philo *philo)
 		}
 		i++;
 	}
-	pid[i] = fork();
-	if (pid[i] < 0)
-	{
-		free_all(data, philo, pid);
-		exit(EXIT_FAILURE);
-	}
-	if (pid[i] == 0)
-	{
-		monitor_thread(philo);
-		free_all(data, philo, pid);
-		exit(EXIT_SUCCESS);
-	}
+	sem_wait(philo->data->monitor_check);
+	sem_post(philo->data->philo_die);
 	i = 0;
 	while (i < data->nb_philo)
 	{
