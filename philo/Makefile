@@ -71,8 +71,7 @@ $(OBJ_DIR)/%.o: %.c
 			printf "\033[38;5;%sm\r[" $$COLOR_CODE ; \
 			i=1; while [ $$i -le $$BAR ]; do printf "▬"; i=$$((i+1)); done ; \
 			while [ $$i -le 40 ]; do printf " "; i=$$((i+1)); done ; \
-			printf "] LOADING %3d%%\033[0m" $$PERCENT ; \
-			printf " made by mgarnier"
+			printf "] LOADING %3d%%\033[0m" $$PERCENT ;
 
 clean:
 		@if ls $(OBJECT) >/dev/null 2>&1; then \

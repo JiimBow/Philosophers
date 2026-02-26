@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/25 18:31:27 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 11:08:43 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	create_philo(t_data *data, t_philo *philo)
 		if (pid[i] == 0)
 		{
 			create_thread(&philo[i]);
+			free_all(data, philo, pid);
 			exit(EXIT_SUCCESS);
 		}
 		i++;
@@ -58,6 +59,8 @@ int	main(int ac, char **av)
 		return (error_message(0));
 	if (!parser(av))
 		return (error_message(1));
+	sem_unlink("sem_data");
+	sem_unlink("sem_fork");
 	data_init(&data, av, get_time(&data));
 	philo = malloc(data.nb_philo * sizeof(t_philo));
 	if (!philo)

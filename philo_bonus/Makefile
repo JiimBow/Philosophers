@@ -6,7 +6,7 @@
 #    By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/20 10:50:57 by jodone            #+#    #+#              #
-#    Updated: 2026/02/25 18:32:48 by jodone           ###   ########.fr        #
+#    Updated: 2026/02/26 11:06:45 by jodone           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC			= $(SRC_DIR)main.c \
 			$(UTILS)error_management.c \
 			$(UTILS)init.c \
 			$(UTILS)get_time.c \
+			$(UTILS)clean.c \
 			$(PHIL_THREAD)thread_routine.c \
 			$(PHIL_THREAD)routine_process.c \
 			$(PHIL_THREAD)usleep_time.c \
@@ -68,8 +69,7 @@ $(OBJ_DIR)/%.o: %.c
 			printf "\033[38;5;%sm\r[" $$COLOR_CODE ; \
 			i=1; while [ $$i -le $$BAR ]; do printf "▬"; i=$$((i+1)); done ; \
 			while [ $$i -le 40 ]; do printf " "; i=$$((i+1)); done ; \
-			printf "] LOADING %3d%%\033[0m" $$PERCENT ; \
-			printf " made by mgarnier"
+			printf "] LOADING %3d%%\033[0m" $$PERCENT ;
 
 clean:
 		@if ls $(OBJECT) >/dev/null 2>&1; then \

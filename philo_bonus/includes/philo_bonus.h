@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/25 18:35:42 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 11:05:23 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_philo
 	int			nb_meals;
 	size_t		last_meal;
 	t_data		*data;
-	// pthread_t	thread;
 }	t_philo;
 
 // INITIALISATION
@@ -71,6 +70,7 @@ int		sleeping_process(t_philo *philo);
 
 // ERROR_MANAGEMENT
 int		error_message(int code);
+void	free_all(t_data *data, t_philo *philo, pid_t *pid);
 
 // PARSING
 int		parser(char **av);
