@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 15:03:57 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:34:59 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	sem_t			*fork;
 	sem_t			*philo_die;
 	sem_t			*monitor_check;
+	sem_t			*first_death;
 	int				nb_philo;
 	size_t			eat_time;
 	size_t			starve_time;

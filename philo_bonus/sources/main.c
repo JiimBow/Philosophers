@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 15:04:02 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:35:15 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av)
 	sem_unlink("sem_fork");
 	sem_unlink("sem_die");
 	sem_unlink("sem_monitor");
+	sem_unlink("sem_first_death");
 	data_init(&data, av, get_time(&data));
 	philo = malloc(data.nb_philo * sizeof(t_philo));
 	if (!philo)

@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 11:54:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 15:24:40 by jodone           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:43:15 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check_philo_die(t_philo *philo)
 	die_timestamp = get_timestamp(philo->data);
 	if (die_timestamp - philo->last_meal >= philo->data->starve_time)
 	{
-		usleep(500);
+		sem_wait(philo->data->first_death);
 		sem_wait(philo->data->sem_data);
 		if (philo->data->stop == 0)
 		{
