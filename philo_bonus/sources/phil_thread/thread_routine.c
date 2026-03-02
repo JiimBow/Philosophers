@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 11:44:04 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 16:21:03 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:03:35 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ void	*thread_routine(void *data)
 	philo = (t_philo *)data;
 	if (philo->data->nb_philo == 1)
 	{
-		printf("%lu %d is thinking\n", get_timestamp(philo->data), philo->id + 1);
+		printf("%lu %d is thinking\n", get_timestamp(philo->data),
+			philo->id + 1);
 		printf("%lu %d has taken a fork\n",
 			get_timestamp(philo->data), philo->id + 1);
 	}
 	else
 		philo_routine(philo);
-	usleep(100);
+	usleep(50);
 	sem_post(philo->data->first_death);
 	sem_post(philo->data->all_eat);
 	return (NULL);

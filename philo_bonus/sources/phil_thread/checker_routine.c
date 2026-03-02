@@ -6,11 +6,27 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 11:54:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 13:21:58 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 16:57:44 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo_bonus.h>
+
+void	*eat_check_routine(void *data)
+{
+	t_data	*d;
+	int		i;
+
+	d = (t_data *)data;
+	i = 0;
+	while (i < d->nb_philo)
+	{
+		sem_wait(d->all_eat);
+		i++;
+	}
+	sem_post(d->monitor_check);
+	return (NULL);
+}
 
 void	*die_checker_routine(void *data)
 {

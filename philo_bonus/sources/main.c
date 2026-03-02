@@ -6,27 +6,11 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 16:21:16 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:06:55 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo_bonus.h>
-
-void	*eat_check_routine(void *data)
-{
-	t_data	*d;
-	int		i;
-
-	d = (t_data *)data;
-	i = 0;
-	while (i < d->nb_philo)
-	{
-		sem_wait(d->all_eat);
-		i++;
-	}
-	sem_post(d->monitor_check);
-	return (NULL);
-}
 
 void	create_thread(t_philo *philo)
 {
@@ -40,27 +24,16 @@ void	create_thread(t_philo *philo)
 	pthread_join(die_checker, NULL);
 }
 
-void	create_philo(t_data *data, t_philo *philo)
+void	child_process(t_data *data, t_philo *philo, pid_t *pid)
 {
-	int			i;
-	int			status;
-	pid_t		*pid;
-	pthread_t	eat_check;
+	int	i;
 
 	i = 0;
-	pid = malloc(data->nb_philo * sizeof(pid_t));
-	if (!pid)
-	{
-		;
-	}
 	while (i < data->nb_philo)
 	{
 		pid[i] = fork();
 		if (pid[i] < 0)
 		{
-			sem_wait(data->sem_data);
-			data->stop = 1;
-			sem_post(data->sem_data);
 			free_child(data, philo, pid);
 			exit(EXIT_FAILURE);
 		}
@@ -72,10 +45,27 @@ void	create_philo(t_data *data, t_philo *philo)
 		}
 		i++;
 	}
+}
+
+void	create_philo(t_data *data, t_philo *philo)
+{
+	int			i;
+	int			status;
+	pid_t		*pid;
+	pthread_t	eat_check;
+
+	pid = malloc(data->nb_philo * sizeof(pid_t));
+	if (!pid)
+	{
+		close_all(data);
+		free(philo);
+		exit(EXIT_FAILURE);
+	}
+	child_process(data, philo, pid);
 	pthread_create(&eat_check, NULL, eat_check_routine, data);
-	pthread_join(eat_check, NULL);
 	sem_wait(philo->data->monitor_check);
 	sem_post(philo->data->philo_die);
+	pthread_join(eat_check, NULL);
 	i = 0;
 	while (i < data->nb_philo)
 	{

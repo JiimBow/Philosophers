@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:47:20 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 15:12:13 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:03:12 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 int	thinking_process(t_philo *philo)
 {
 	sem_wait(philo->data->sem_data);
-	printf("%lu %d is thinking\n", get_timestamp(philo->data), philo->id + 1);
 	if (philo->data->stop == 1)
 	{
 		sem_post(philo->data->sem_data);
 		return (1);
 	}
+	printf("%lu %d is thinking\n", get_timestamp(philo->data), philo->id + 1);
 	sem_post(philo->data->sem_data);
 	return (0);
 }

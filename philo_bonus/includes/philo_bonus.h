@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 15:41:41 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 16:58:00 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int		eating_process(t_philo *philo);
 int		sleeping_process(t_philo *philo);
 void	checker_routine(t_philo *philo);
 void	*die_checker_routine(void *data);
+void	*eat_check_routine(void *data);
 
 // ERROR_MANAGEMENT
 int		error_message(int code);
