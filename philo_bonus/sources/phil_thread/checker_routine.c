@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 11:54:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 16:57:44 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:12:33 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	check_philo_die(t_philo *philo)
 		sem_wait(philo->data->sem_data);
 		if (philo->data->stop == 0)
 		{
-			printf("%lu %d died\n", die_timestamp, philo->id + 1);
 			sem_post(philo->data->monitor_check);
 			philo->data->stop = 1;
 		}

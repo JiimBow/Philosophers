@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 17:06:55 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:12:22 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ void	child_process(t_data *data, t_philo *philo, pid_t *pid)
 	}
 }
 
-void	create_philo(t_data *data, t_philo *philo)
+void	create_philo(t_data *data, t_philo *philo, int i)
 {
-	int			i;
 	int			status;
 	pid_t		*pid;
 	pthread_t	eat_check;
@@ -66,10 +65,11 @@ void	create_philo(t_data *data, t_philo *philo)
 	sem_wait(philo->data->monitor_check);
 	sem_post(philo->data->philo_die);
 	pthread_join(eat_check, NULL);
-	i = 0;
 	while (i < data->nb_philo)
 	{
 		waitpid(pid[i], &status, 0);
+		if (i == 0)
+			printf("%lu %d died\n", get_timestamp(data), philo[i].id + 1);
 		i++;
 	}
 	free_all(data, philo, pid);
@@ -98,6 +98,6 @@ int	main(int ac, char **av)
 		return (error_message(2));
 	}
 	philo_init(philo, &data);
-	create_philo(&data, philo);
+	create_philo(&data, philo, 0);
 	return (0);
 }
