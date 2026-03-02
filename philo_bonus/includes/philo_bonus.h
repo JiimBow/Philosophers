@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 16:58:00 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:25:04 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	free_all(t_data *data, t_philo *philo, pid_t *pid);
 void	free_sem(t_data *data);
 void	close_all(t_data *data);
 void	free_child(t_data *data, t_philo *philo, pid_t *pid);
+void	free_sem_and_philo(t_data *data, t_philo *philo);
 
 // PARSING
 int		parser(char **av);

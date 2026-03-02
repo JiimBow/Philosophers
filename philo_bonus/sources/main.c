@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 17:12:22 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 17:25:14 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,31 @@ void	child_process(t_data *data, t_philo *philo, pid_t *pid)
 	}
 }
 
+int	first_die_philo(pid_t *pid, pid_t last_philo)
+{
+	int	i;
+
+	i = 0;
+	while (pid[i])
+	{
+		if (pid[i] == last_philo)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 void	create_philo(t_data *data, t_philo *philo, int i)
 {
 	int			status;
 	pid_t		*pid;
 	pthread_t	eat_check;
+	int			l_phil;
 
 	pid = malloc(data->nb_philo * sizeof(pid_t));
 	if (!pid)
 	{
-		close_all(data);
-		free(philo);
+		free_sem_and_philo(data, philo);
 		exit(EXIT_FAILURE);
 	}
 	child_process(data, philo, pid);
@@ -67,9 +81,10 @@ void	create_philo(t_data *data, t_philo *philo, int i)
 	pthread_join(eat_check, NULL);
 	while (i < data->nb_philo)
 	{
-		waitpid(pid[i], &status, 0);
+		l_phil = waitpid(-1, &status, 0);
+		l_phil = first_die_philo(pid, l_phil);
 		if (i == 0)
-			printf("%lu %d died\n", get_timestamp(data), philo[i].id + 1);
+			printf("%lu %d died\n", get_timestamp(data), philo[l_phil].id + 1);
 		i++;
 	}
 	free_all(data, philo, pid);
