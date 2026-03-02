@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 14:06:11 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 16:21:16 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,13 @@ void	create_philo(t_data *data, t_philo *philo)
 			sem_wait(data->sem_data);
 			data->stop = 1;
 			sem_post(data->sem_data);
-			close_all(data);
-			free(pid);
+			free_child(data, philo, pid);
 			exit(EXIT_FAILURE);
 		}
 		if (pid[i] == 0)
 		{
 			create_thread(&philo[i]);
-			close_all(data);
-			free(pid);
+			free_child(data, philo, pid);
 			exit(EXIT_SUCCESS);
 		}
 		i++;

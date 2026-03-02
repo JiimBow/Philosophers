@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 10:21:41 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 14:03:59 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:33 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ void	free_sem(t_data *data)
 	sem_unlink("sem_monitor");
 	sem_unlink("sem_first_death");
 	sem_unlink("sem_all_eat");
+}
+
+void	free_child(t_data *data, t_philo *philo, pid_t *pid)
+{
+	close_all(data);
+	free(pid);
+	free(philo);
 }
 
 void	free_all(t_data *data, t_philo *philo, pid_t *pid)

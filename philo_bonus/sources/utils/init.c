@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:52:31 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 13:09:17 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 16:04:46 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	data_init(t_data *data, char **av, size_t start_time)
 	data->prog_time = start_time;
 	data->sem_data = sem_open("sem_data", O_CREAT, 0664, 1);
 	data->fork = sem_open("sem_fork", O_CREAT, 0664, data->nb_philo);
+	data->first_death = sem_open("sem_first_death", O_CREAT, 0664, 1);
 	data->philo_die = sem_open("sem_die", O_CREAT, 0664, 0);
 	data->monitor_check = sem_open("sem_monitor", O_CREAT, 0664, 0);
-	data->first_death = sem_open("sem_first_death", O_CREAT, 0664, 1);
 	data->all_eat = sem_open("sem_all_eat", O_CREAT, 0664, 0);
 	data->stop = 0;
 }
