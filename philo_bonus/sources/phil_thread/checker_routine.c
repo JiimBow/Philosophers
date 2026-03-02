@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 11:54:21 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 16:41:47 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 13:21:58 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,14 @@ void	checker_routine(t_philo *philo)
 			break ;
 		if (philo->data->eat_nb != -1)
 		{
+			sem_wait(philo->data->sem_data);
 			if (philo->nb_meals == philo->data->eat_nb)
 			{
-				sem_wait(philo->data->sem_data);
 				philo->data->stop = 1;
 				sem_post(philo->data->sem_data);
 				break ;
 			}
+			sem_post(philo->data->sem_data);
 		}
 		usleep(50);
 	}

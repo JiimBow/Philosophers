@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:07:07 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/26 16:14:23 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/02 13:54:08 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_data
 	sem_t			*philo_die;
 	sem_t			*monitor_check;
 	sem_t			*first_death;
+	sem_t			*all_eat;
 	int				nb_philo;
 	size_t			eat_time;
 	size_t			starve_time;
@@ -76,6 +77,8 @@ void	*die_checker_routine(void *data);
 // ERROR_MANAGEMENT
 int		error_message(int code);
 void	free_all(t_data *data, t_philo *philo, pid_t *pid);
+void	free_sem(t_data *data);
+void	close_all(t_data *data);
 
 // PARSING
 int		parser(char **av);
