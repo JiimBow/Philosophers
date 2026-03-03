@@ -15,5 +15,5 @@ The last argument is optional, if specified, the simulation stops when all philo
 
 ## Resources
 This site help me a lot to understand the principe of mutexes and threads.
-https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c/
+https://www.codequoi.com/threads-mutex-et-programmation-concurrente-en-c
 Chatgpt is used for new functions which i need some explanations.

@@ -6,7 +6,7 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 16:22:40 by jodone            #+#    #+#             */
-/*   Updated: 2026/02/25 16:28:58 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/03 13:17:10 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	philo_routine_start(t_philo *philo)
 		if (philo->id % 2 != 0 && philo->nb_meals == 0)
 			usleep_time(philo, philo->data->eat_time / 2);
 	}
-	else
+	else if (philo->data->nb_philo % 2 != 0
+		&& philo->data->eat_time >= philo->data->sleep_time)
 	{
 		if (philo->id % 2 != 0)
 			usleep_time(philo, philo->data->eat_time / 2);
@@ -27,6 +28,15 @@ void	philo_routine_start(t_philo *philo)
 			usleep_time(philo, philo->data->eat_time / 2 + 1);
 		else if (philo->id % 2 == 0 && philo->nb_meals != 0)
 			usleep_time(philo, philo->data->eat_time / 2);
+	}
+	else if (philo->data->nb_philo % 2 != 0
+		&& philo->data->eat_time < philo->data->sleep_time)
+	{
+		if (philo->id % 2 != 0 && philo->nb_meals == 0)
+			usleep_time(philo, philo->data->eat_time / 2);
+		if (philo->id % 2 == 0 && philo->id + 1 == philo->data->nb_philo
+			&& philo->nb_meals == 0)
+			usleep_time(philo, philo->data->eat_time / 2 + 1);
 	}
 }
 

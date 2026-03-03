@@ -6,13 +6,13 @@
 /*   By: jodone <jodone@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 18:06:52 by jodone            #+#    #+#             */
-/*   Updated: 2026/03/02 17:25:14 by jodone           ###   ########.fr       */
+/*   Updated: 2026/03/03 13:36:39 by jodone           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo_bonus.h>
 
-void	create_thread(t_philo *philo)
+int	create_thread(t_philo *philo)
 {
 	pthread_t	thread;
 	pthread_t	die_checker;
@@ -22,11 +22,15 @@ void	create_thread(t_philo *philo)
 	checker_routine(philo);
 	pthread_join(thread, NULL);
 	pthread_join(die_checker, NULL);
+	if (philo->nb_meals == philo->data->eat_nb)
+		return (0);
+	return (1);
 }
 
 void	child_process(t_data *data, t_philo *philo, pid_t *pid)
 {
 	int	i;
+	int	return_value;
 
 	i = 0;
 	while (i < data->nb_philo)
@@ -39,9 +43,11 @@ void	child_process(t_data *data, t_philo *philo, pid_t *pid)
 		}
 		if (pid[i] == 0)
 		{
-			create_thread(&philo[i]);
+			return_value = create_thread(&philo[i]);
 			free_child(data, philo, pid);
-			exit(EXIT_SUCCESS);
+			if (return_value == 0)
+				exit(EXIT_SUCCESS);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
@@ -83,7 +89,7 @@ void	create_philo(t_data *data, t_philo *philo, int i)
 	{
 		l_phil = waitpid(-1, &status, 0);
 		l_phil = first_die_philo(pid, l_phil);
-		if (i == 0)
+		if (i == 0 && WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			printf("%lu %d died\n", get_timestamp(data), philo[l_phil].id + 1);
 		i++;
 	}
